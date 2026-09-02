@@ -3,23 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Control de Inventario</title>
+  <title>Control de Inventario - Aproel</title>
   <style>
     body { font-family: Arial, sans-serif; background-color: #f4f4f9; padding: 20px; margin: 0; }
     .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-    h2 { color: #0056b3; text-align: center; }
-    input, select, button { width: 100%; padding: 12px; margin-top: 8px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px; }
-    button { background-color: #0056b3; color: white; border: none; font-weight: bold; cursor: pointer; }
-    button:active { background-color: #004494; }
-    table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 12px; }
-    th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
-    th { background-color: #0056b3; color: white; }
-    tr:hover { background-color: #f1f1f1; }
-    .seccion { margin-top: 30px; border-top: 2px solid #eee; padding-top: 20px; }
-    #alerta { display: none; color: green; font-weight: bold; text-align: center; }
-  </style>
-</head>
-  /* Estilos para el logo de Aproel */
+    
+    /* Estilos para el logo de Aproel */
     .logo {
       display: block;
       margin: 0 auto 15px auto;
@@ -45,10 +34,6 @@
     <!-- Aquí se inserta el logo -->
     <img src="logo.png" alt="Logo Aproel" class="logo">
 
-  <div class="container">
-    <!-- Aquí va el archivo de tu logo. Asegúrate de que el nombre del archivo coincida -->
-    <img src="logo.jpg" alt="Logo Aproel" class="logo">
-  <div class="container">
     <h2>Catálogo de Inventario</h2>
     
     <!-- Buscador dinámico -->
@@ -76,10 +61,10 @@
       <h2>Registrar Salida de Material</h2>
       <form id="formMovimiento">
         <label>Usuario / Técnico</label>
-        <input type="text" name="usuario" placeholder="Tu nombre" required>
+        <input type="text" name="usuario" placeholder="Ej. Felipe, Kristel..." required>
         
         <label>Código del Item</label>
-        <input type="text" name="codigo" placeholder="Ej. INV-001" required>
+        <input type="text" name="codigo" placeholder="Ej. CBL-001" required>
         
         <label>Cantidad a retirar</label>
         <input type="number" step="0.1" name="cantidad" required>
@@ -97,17 +82,16 @@
   </div>
 
   <script>
-    // === REEMPLAZA ESTA URL CON LA QUE COPIASTE DE APPS SCRIPT ===
+    // === RECUERDA PEGAR AQUÍ TU URL DE APPS SCRIPT ===
     const URL_API = 'https://script.google.com/macros/s/AKfycbx08lO6SgX9emIE32XR6Bc4wbcAQxQuVMz5cmREiX3mOVdcHpQQpKZI3LYFMTUcR7vZ/exec';
 
-    // Función para cargar los datos en la tabla al abrir la app
     function cargarInventario() {
       fetch(URL_API)
         .then(res => res.json())
         .then(data => {
           let html = '';
           data.forEach(item => {
-            if(item.codigo) { // Evita filas vacías
+            if(item.codigo) { 
               html += `<tr>
                         <td>${item.codigo}</td>
                         <td>${item.categoria}</td>
@@ -120,7 +104,6 @@
         });
     }
 
-    // Función del buscador en tiempo real
     function filtrarTabla() {
       let filtro = document.getElementById("buscador").value.toUpperCase();
       let filas = document.getElementById("cuerpoTabla").getElementsByTagName("tr");
@@ -135,7 +118,6 @@
       }
     }
 
-    // Enviar el formulario de salida de material
     document.getElementById('formMovimiento').addEventListener('submit', function(e) {
       e.preventDefault();
       let formData = new FormData(this);
@@ -145,17 +127,21 @@
       fetch(URL_API, { method: 'POST', body: formData, mode: 'no-cors' })
         .then(() => {
           document.getElementById('alerta').style.display = 'block';
+          
+          // Guardamos el nombre del usuario para no tener que volver a escribirlo
+          const usuarioGuardado = this.querySelector('input[name="usuario"]').value;
+          
           this.reset();
+          this.querySelector('input[name="usuario"]').value = usuarioGuardado; // Restauramos el usuario
+          
           btn.textContent = "Registrar Salida";
           setTimeout(() => { document.getElementById('alerta').style.display = 'none'; }, 3000);
           
-          // Recargar la tabla para mostrar el nuevo stock
           cargarInventario();
         })
         .catch(err => console.error(err));
     });
 
-    // Cargar datos al iniciar
     cargarInventario();
   </script>
 </body>
