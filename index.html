@@ -19,8 +19,64 @@
     #alerta { display: none; color: green; font-weight: bold; text-align: center; }
   </style>
 </head>
+  
+<body>
+    /* Estilos para tu logo original */
+    .logo {
+      display: block;
+      margin: 0 auto 15px auto;
+      max-width: 160px; /* Ajusta este valor si tu logo es muy grande o muy pequeño */
+      height: auto;
+    }
+    h2 { 
+      color: #0056b3; /* Título en azul */
+      text-align: center;
+      margin-top: 0;
+    }
+    label { 
+      display: block; 
+      margin-top: 15px; 
+      font-weight: bold; 
+      color: #333;
+    }
+    input, select, textarea { 
+      width: 100%; 
+      padding: 12px; 
+      margin-top: 5px; 
+      border: 1px solid #ccc; 
+      border-radius: 4px; 
+      box-sizing: border-box; 
+      font-size: 16px; 
+    }
+    button { 
+      margin-top: 25px; 
+      width: 100%; 
+      padding: 15px; 
+      background-color: #0056b3; 
+      color: white; 
+      border: none; 
+      border-radius: 4px; 
+      font-size: 16px; 
+      font-weight: bold;
+      cursor: pointer; 
+    }
+    button:active {
+      background-color: #004494;
+    }
+    #mensaje {
+      text-align: center; 
+      color: green; 
+      display: none;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
 <body>
 
+  <div class="container">
+    <!-- Aquí va el archivo de tu logo. Asegúrate de que el nombre del archivo coincida -->
+    <img src="logo.jpg" alt="Logo Aproel" class="logo">
   <div class="container">
     <h2>Catálogo de Inventario</h2>
     
